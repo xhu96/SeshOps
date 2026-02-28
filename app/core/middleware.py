@@ -23,6 +23,7 @@ class MetricsMiddleware(BaseHTTPMiddleware):
     """Record HTTP request counts and latency for Prometheus dashboards."""
 
     async def dispatch(self, request: Request, call_next: Callable) -> Response:
+        """Record HTTP request counts and latency for Prometheus dashboards."""
         start = time.time()
         try:
             response = await call_next(request)
@@ -52,6 +53,7 @@ class LoggingContextMiddleware(BaseHTTPMiddleware):
     """
 
     async def dispatch(self, request: Request, call_next: Callable) -> Response:
+        """Inject operator and session identifiers into the structlog context."""
         try:
             clear_context()
 

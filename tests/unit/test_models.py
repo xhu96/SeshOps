@@ -28,7 +28,7 @@ class TestUserModel:
         assert user.verify_password("WrongPassword!") is False
 
     def test_hash_is_unique_per_call(self):
-        """bcrypt salts should produce different hashes for the same input."""
+        """Bcrypt salts should produce different hashes for the same input."""
         h1 = User.hash_password("SamePassword1!")
         h2 = User.hash_password("SamePassword1!")
         assert h1 != h2  # Different salts

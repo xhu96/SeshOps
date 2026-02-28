@@ -139,6 +139,7 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
     """Append standard security headers to every SeshOps response."""
 
     async def dispatch(self, request: Request, call_next):
+        """Append standard security headers to every SeshOps response."""
         response = await call_next(request)
         response.headers["X-Content-Type-Options"] = "nosniff"
         response.headers["X-Frame-Options"] = "DENY"

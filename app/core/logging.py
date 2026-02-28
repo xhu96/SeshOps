@@ -25,25 +25,26 @@ settings.LOG_DIR.mkdir(parents=True, exist_ok=True)
 
 # ── Per-request context ──────────────────────────────────────────────────────
 
-_request_context: ContextVar[Dict[str, Any]] = ContextVar(
-    "seshops_request_context", default={}
+_request_context: ContextVar[Dict[str, Any] | None] = ContextVar(
+    "seshops_request_context", default=None
 )
 
 
 def bind_context(**kwargs: Any) -> None:
     """Attach key-value pairs to the current request's logging context."""
-    current = _request_context.get()
+    current = get_context()
     _request_context.set({**current, **kwargs})
 
 
 def clear_context() -> None:
     """Reset the logging context at the end of a request lifecycle."""
-    _request_context.set({})
+    _request_context.set(None)
 
 
 def get_context() -> Dict[str, Any]:
     """Return the current request-scoped logging context."""
-    return _request_context.get()
+    ctx = _request_context.get()
+    return ctx if ctx is not None else {}
 
 
 def _inject_context(
@@ -77,10 +78,12 @@ class JsonlFileHandler(logging.Handler):
     """Writes structured JSON-line entries to daily rotating files."""
 
     def __init__(self, file_path: Path) -> None:
+        """Initialize the JSONL file handler with a target path."""
         super().__init__()
         self.file_path = file_path
 
     def emit(self, record: logging.LogRecord) -> None:
+        """Write the log record to the daily rotate file as a JSON line."""
         try:
             entry = {
                 "timestamp": datetime.fromtimestamp(record.created).isoformat(),

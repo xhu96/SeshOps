@@ -1,0 +1,526 @@
+app/core/langgraph/graph.py:40:9: D107 Missing docstring in `__init__`
+   |
+38 |     """
+39 |
+40 |     def __init__(
+   |         ^^^^^^^^ D107
+41 |         self,
+42 |         llm: LLMServiceProtocol | None = None,
+   |
+
+app/core/logging.py:29:40: B039 Do not use mutable data structures for `ContextVar` defaults
+   |
+28 | _request_context: ContextVar[Dict[str, Any]] = ContextVar(
+29 |     "seshops_request_context", default={}
+   |                                        ^^ B039
+30 | )
+   |
+   = help: Replace with `None`; initialize with `.set()``
+
+app/core/logging.py:79:9: D107 Missing docstring in `__init__`
+   |
+77 |     """Writes structured JSON-line entries to daily rotating files."""
+78 |
+79 |     def __init__(self, file_path: Path) -> None:
+   |         ^^^^^^^^ D107
+80 |         super().__init__()
+81 |         self.file_path = file_path
+   |
+
+app/core/logging.py:83:9: D102 Missing docstring in public method
+   |
+81 |         self.file_path = file_path
+82 |
+83 |     def emit(self, record: logging.LogRecord) -> None:
+   |         ^^^^ D102
+84 |         try:
+85 |             entry = {
+   |
+
+app/core/middleware.py:25:15: D102 Missing docstring in public method
+   |
+23 |     """Record HTTP request counts and latency for Prometheus dashboards."""
+24 |
+25 |     async def dispatch(self, request: Request, call_next: Callable) -> Response:
+   |               ^^^^^^^^ D102
+26 |         start = time.time()
+27 |         try:
+   |
+
+app/core/middleware.py:54:15: D102 Missing docstring in public method
+   |
+52 |     """
+53 |
+54 |     async def dispatch(self, request: Request, call_next: Callable) -> Response:
+   |               ^^^^^^^^ D102
+55 |         try:
+56 |             clear_context()
+   |
+
+app/main.py:141:15: D102 Missing docstring in public method
+    |
+139 |     """Append standard security headers to every SeshOps response."""
+140 |
+141 |     async def dispatch(self, request: Request, call_next):
+    |               ^^^^^^^^ D102
+142 |         response = await call_next(request)
+143 |         response.headers["X-Content-Type-Options"] = "nosniff"
+    |
+
+app/services/llm.py:147:9: D107 Missing docstring in `__init__`
+    |
+145 |     CIRCUIT_OPEN_DURATION: float = 60.0  # seconds before auto-reset
+146 |
+147 |     def __init__(self) -> None:
+    |         ^^^^^^^^ D107
+148 |         self._llm: Optional[BaseChatModel] = None
+149 |         self._current_model_index: int = 0
+    |
+
+app/services/llm.py:276:9: F841 Local variable `starting` is assigned to but never used
+    |
+274 |         total = len(LLMRegistry.LLMS)
+275 |         tried = 0
+276 |         starting = self._current_model_index
+    |         ^^^^^^^^ F841
+277 |         last_error: Optional[Exception] = None
+    |
+    = help: Remove assignment to unused variable `starting`
+
+app/services/rag.py:24:9: D107 Missing docstring in `__init__`
+   |
+22 |     """Embeds and retrieves IT operations runbooks for the SeshOps triage pipeline."""
+23 |
+24 |     def __init__(self) -> None:
+   |         ^^^^^^^^ D107
+25 |         self.embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+26 |         self._vector_store: Optional[VectorStore] = None
+   |
+
+scripts/e2e_demo.py:1:1: D100 Missing docstring in public module
+tests/api/test_auth.py:7:5: D103 Missing docstring in public function
+  |
+6 | @pytest.fixture(scope="module")
+7 | def test_user_data():
+  |     ^^^^^^^^^^^^^^ D103
+8 |     return {
+9 |         "email": "testoperator@example.com",
+  |
+
+tests/integration/test_auth_flow.py:22:5: D103 Missing docstring in public function
+   |
+21 | @pytest.fixture(scope="module")
+22 | def client():
+   |     ^^^^^^ D103
+23 |     SQLModel.metadata.drop_all(engine)
+24 |     SQLModel.metadata.create_all(engine)
+   |
+
+tests/integration/test_auth_flow.py:40:5: F841 Local variable `token` is assigned to but never used
+   |
+38 |     assert data["email"] == "flow@seshops.io"
+39 |     assert "token" in data
+40 |     token = data["token"]["access_token"]
+   |     ^^^^^ F841
+41 |
+42 |     # ── Step 2: Login ───────────────────────────────────────────────
+   |
+   = help: Remove assignment to unused variable `token`
+
+tests/integration/test_pipeline.py:20:5: D103 Missing docstring in public function
+   |
+19 | @pytest.fixture
+20 | def anyio_backend():
+   |     ^^^^^^^^^^^^^ D103
+21 |     return "asyncio"
+   |
+
+tests/integration/test_pipeline.py:27:9: D107 Missing docstring in `__init__`
+   |
+25 |     """Minimal LLM response object with a .content attribute."""
+26 |
+27 |     def __init__(self, content: str) -> None:
+   |         ^^^^^^^^ D107
+28 |         self.content = content
+   |
+
+tests/unit/test_database.py:21:5: D103 Missing docstring in public function
+   |
+20 | @pytest.fixture(scope="module")
+21 | def anyio_backend():
+   |     ^^^^^^^^^^^^^ D103
+22 |     return "asyncio"
+   |
+
+tests/unit/test_models.py:14:7: D101 Missing docstring in public class
+   |
+14 | class TestUserModel:
+   |       ^^^^^^^^^^^^^ D101
+15 |     def test_hash_password_returns_string(self):
+16 |         hashed = User.hash_password("SecurePass1!")
+   |
+
+tests/unit/test_models.py:15:9: D102 Missing docstring in public method
+   |
+14 | class TestUserModel:
+15 |     def test_hash_password_returns_string(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ D102
+16 |         hashed = User.hash_password("SecurePass1!")
+17 |         assert isinstance(hashed, str)
+   |
+
+tests/unit/test_models.py:20:9: D102 Missing docstring in public method
+   |
+18 |         assert hashed != "SecurePass1!"
+19 |
+20 |     def test_verify_password_correct(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ D102
+21 |         hashed = User.hash_password("SecurePass1!")
+22 |         user = User(email="test@example.com", hashed_password=hashed)
+   |
+
+tests/unit/test_models.py:25:9: D102 Missing docstring in public method
+   |
+23 |         assert user.verify_password("SecurePass1!") is True
+24 |
+25 |     def test_verify_password_incorrect(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ D102
+26 |         hashed = User.hash_password("SecurePass1!")
+27 |         user = User(email="test@example.com", hashed_password=hashed)
+   |
+
+tests/unit/test_models.py:36:9: D102 Missing docstring in public method
+   |
+34 |         assert h1 != h2  # Different salts
+35 |
+36 |     def test_user_email_field(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^ D102
+37 |         user = User(email="ops@seshops.io", hashed_password="x")
+38 |         assert user.email == "ops@seshops.io"
+   |
+
+tests/unit/test_sanitisation.py:20:7: D101 Missing docstring in public class
+   |
+20 | class TestSanitizeString:
+   |       ^^^^^^^^^^^^^^^^^^ D101
+21 |     def test_escapes_html_entities(self):
+22 |         result = sanitize_string("<b>bold</b>")
+   |
+
+tests/unit/test_sanitisation.py:21:9: D102 Missing docstring in public method
+   |
+20 | class TestSanitizeString:
+21 |     def test_escapes_html_entities(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^ D102
+22 |         result = sanitize_string("<b>bold</b>")
+23 |         assert "<b>" not in result
+   |
+
+tests/unit/test_sanitisation.py:26:9: D102 Missing docstring in public method
+   |
+24 |         assert "&lt;" in result  # html.escape converts < to &lt;
+25 |
+26 |     def test_preserves_safe_text(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^ D102
+27 |         assert sanitize_string("hello world 123") == "hello world 123"
+   |
+
+tests/unit/test_sanitisation.py:29:9: D102 Missing docstring in public method
+   |
+27 |         assert sanitize_string("hello world 123") == "hello world 123"
+28 |
+29 |     def test_strips_null_bytes(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^ D102
+30 |         assert "\0" not in sanitize_string("hello\0world")
+   |
+
+tests/unit/test_sanitisation.py:32:9: D102 Missing docstring in public method
+   |
+30 |         assert "\0" not in sanitize_string("hello\0world")
+31 |
+32 |     def test_empty_string(self):
+   |         ^^^^^^^^^^^^^^^^^ D102
+33 |         assert sanitize_string("") == ""
+   |
+
+tests/unit/test_sanitisation.py:36:7: D101 Missing docstring in public class
+   |
+36 | class TestSanitizeEmail:
+   |       ^^^^^^^^^^^^^^^^^ D101
+37 |     def test_valid_email_normalised(self):
+38 |         result = sanitize_email("Ops@Example.COM")
+   |
+
+tests/unit/test_sanitisation.py:37:9: D102 Missing docstring in public method
+   |
+36 | class TestSanitizeEmail:
+37 |     def test_valid_email_normalised(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^ D102
+38 |         result = sanitize_email("Ops@Example.COM")
+39 |         assert result == "ops@example.com"
+   |
+
+tests/unit/test_sanitisation.py:41:9: D102 Missing docstring in public method
+   |
+39 |         assert result == "ops@example.com"
+40 |
+41 |     def test_leading_trailing_whitespace_stripped(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ D102
+42 |         # sanitize_email calls sanitize_string first, which uses html.escape
+43 |         # The email regex requires a clean input, so we test with pre-stripped
+   |
+
+tests/unit/test_sanitisation.py:47:9: D102 Missing docstring in public method
+   |
+45 |         assert result == "ops@example.com"
+46 |
+47 |     def test_invalid_email_raises(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^ D102
+48 |         with pytest.raises(ValueError, match="Invalid email"):
+49 |             sanitize_email("not-an-email")
+   |
+
+tests/unit/test_sanitisation.py:52:7: D101 Missing docstring in public class
+   |
+52 | class TestSanitizeDict:
+   |       ^^^^^^^^^^^^^^^^ D101
+53 |     def test_sanitises_string_values(self):
+54 |         dirty = {"name": "<b>Admin</b>"}
+   |
+
+tests/unit/test_sanitisation.py:53:9: D102 Missing docstring in public method
+   |
+52 | class TestSanitizeDict:
+53 |     def test_sanitises_string_values(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ D102
+54 |         dirty = {"name": "<b>Admin</b>"}
+55 |         clean = sanitize_dict(dirty)
+   |
+
+tests/unit/test_sanitisation.py:58:9: D102 Missing docstring in public method
+   |
+56 |         assert "<b>" not in clean["name"]
+57 |
+58 |     def test_preserves_non_string_values(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ D102
+59 |         data = {"count": 42, "active": True}
+60 |         assert sanitize_dict(data) == data
+   |
+
+tests/unit/test_sanitisation.py:62:9: D102 Missing docstring in public method
+   |
+60 |         assert sanitize_dict(data) == data
+61 |
+62 |     def test_recursive_dict_sanitisation(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ D102
+63 |         dirty = {"outer": {"inner": "<script>x</script>"}}
+64 |         clean = sanitize_dict(dirty)
+   |
+
+tests/unit/test_sanitisation.py:68:7: D101 Missing docstring in public class
+   |
+68 | class TestSanitizeList:
+   |       ^^^^^^^^^^^^^^^^ D101
+69 |     def test_sanitises_string_elements(self):
+70 |         dirty = ["<b>bold</b>", "clean"]
+   |
+
+tests/unit/test_sanitisation.py:69:9: D102 Missing docstring in public method
+   |
+68 | class TestSanitizeList:
+69 |     def test_sanitises_string_elements(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ D102
+70 |         dirty = ["<b>bold</b>", "clean"]
+71 |         clean = sanitize_list(dirty)
+   |
+
+tests/unit/test_sanitisation.py:76:7: D101 Missing docstring in public class
+   |
+76 | class TestPasswordStrength:
+   |       ^^^^^^^^^^^^^^^^^^^^ D101
+77 |     def test_strong_password_passes(self):
+78 |         assert validate_password_strength("StrongPass1!") is True
+   |
+
+tests/unit/test_sanitisation.py:77:9: D102 Missing docstring in public method
+   |
+76 | class TestPasswordStrength:
+77 |     def test_strong_password_passes(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^ D102
+78 |         assert validate_password_strength("StrongPass1!") is True
+   |
+
+tests/unit/test_sanitisation.py:80:9: D102 Missing docstring in public method
+   |
+78 |         assert validate_password_strength("StrongPass1!") is True
+79 |
+80 |     def test_short_password_raises(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^ D102
+81 |         with pytest.raises(ValueError, match="at least 8"):
+82 |             validate_password_strength("Sh1!")
+   |
+
+tests/unit/test_sanitisation.py:84:9: D102 Missing docstring in public method
+   |
+82 |             validate_password_strength("Sh1!")
+83 |
+84 |     def test_no_uppercase_raises(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^ D102
+85 |         with pytest.raises(ValueError, match="uppercase"):
+86 |             validate_password_strength("alllower1!")
+   |
+
+tests/unit/test_sanitisation.py:88:9: D102 Missing docstring in public method
+   |
+86 |             validate_password_strength("alllower1!")
+87 |
+88 |     def test_no_digit_raises(self):
+   |         ^^^^^^^^^^^^^^^^^^^^ D102
+89 |         with pytest.raises(ValueError, match="number"):
+90 |             validate_password_strength("NoDigitsHere!")
+   |
+
+tests/unit/test_sanitisation.py:92:9: D102 Missing docstring in public method
+   |
+90 |             validate_password_strength("NoDigitsHere!")
+91 |
+92 |     def test_no_special_char_raises(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^ D102
+93 |         with pytest.raises(ValueError, match="special"):
+94 |             validate_password_strength("NoSpecial1A")
+   |
+
+tests/unit/test_security.py:22:9: D102 Missing docstring in public method
+   |
+20 |     """JWT creation and verification round-trip."""
+21 |
+22 |     def test_create_access_token_returns_token(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ D102
+23 |         token = create_access_token(subject="42")
+24 |         assert isinstance(token, Token)
+   |
+
+tests/unit/test_security.py:28:9: D102 Missing docstring in public method
+   |
+26 |         assert token.access_token  # non-empty
+27 |
+28 |     def test_verify_token_round_trip(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ D102
+29 |         token = create_access_token(subject="user-99")
+30 |         subject = verify_token(token.access_token)
+   |
+
+tests/unit/test_security.py:33:9: D102 Missing docstring in public method
+   |
+31 |         assert subject == "user-99"
+32 |
+33 |     def test_verify_token_tampered_returns_none(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ D102
+34 |         token = create_access_token(subject="user-1")
+35 |         tampered = token.access_token[:-5] + "XXXXX"
+   |
+
+tests/unit/test_security.py:38:9: D102 Missing docstring in public method
+   |
+36 |         assert verify_token(tampered) is None
+37 |
+38 |     def test_verify_token_invalid_format_raises(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ D102
+39 |         with pytest.raises(ValueError, match="invalid"):
+40 |             verify_token("not-a-jwt")
+   |
+
+tests/unit/test_security.py:42:9: D102 Missing docstring in public method
+   |
+40 |             verify_token("not-a-jwt")
+41 |
+42 |     def test_verify_token_empty_string_raises(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ D102
+43 |         with pytest.raises(ValueError, match="non-empty"):
+44 |             verify_token("")
+   |
+
+tests/unit/test_security.py:50:9: D102 Missing docstring in public method
+   |
+48 |     """Password strength enforcement on UserCreate."""
+49 |
+50 |     def test_valid_password_accepted(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ D102
+51 |         user = UserCreate(email="ops@example.com", password="SecurePass1!")
+52 |         assert user.email == "ops@example.com"
+   |
+
+tests/unit/test_security.py:54:9: D102 Missing docstring in public method
+   |
+52 |         assert user.email == "ops@example.com"
+53 |
+54 |     def test_short_password_rejected(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ D102
+55 |         with pytest.raises(Exception):
+56 |             UserCreate(email="ops@example.com", password="Sh1!")
+   |
+
+tests/unit/test_security.py:55:14: B017 Do not assert blind exception: `Exception`
+   |
+54 |     def test_short_password_rejected(self):
+55 |         with pytest.raises(Exception):
+   |              ^^^^^^^^^^^^^^^^^^^^^^^^ B017
+56 |             UserCreate(email="ops@example.com", password="Sh1!")
+   |
+
+tests/unit/test_security.py:58:9: D102 Missing docstring in public method
+   |
+56 |             UserCreate(email="ops@example.com", password="Sh1!")
+57 |
+58 |     def test_no_uppercase_rejected(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^ D102
+59 |         with pytest.raises(Exception):
+60 |             UserCreate(email="ops@example.com", password="alllower1!")
+   |
+
+tests/unit/test_security.py:59:14: B017 Do not assert blind exception: `Exception`
+   |
+58 |     def test_no_uppercase_rejected(self):
+59 |         with pytest.raises(Exception):
+   |              ^^^^^^^^^^^^^^^^^^^^^^^^ B017
+60 |             UserCreate(email="ops@example.com", password="alllower1!")
+   |
+
+tests/unit/test_security.py:62:9: D102 Missing docstring in public method
+   |
+60 |             UserCreate(email="ops@example.com", password="alllower1!")
+61 |
+62 |     def test_no_digit_rejected(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^ D102
+63 |         with pytest.raises(Exception):
+64 |             UserCreate(email="ops@example.com", password="NoDigitsHere!")
+   |
+
+tests/unit/test_security.py:63:14: B017 Do not assert blind exception: `Exception`
+   |
+62 |     def test_no_digit_rejected(self):
+63 |         with pytest.raises(Exception):
+   |              ^^^^^^^^^^^^^^^^^^^^^^^^ B017
+64 |             UserCreate(email="ops@example.com", password="NoDigitsHere!")
+   |
+
+tests/unit/test_security.py:66:9: D102 Missing docstring in public method
+   |
+64 |             UserCreate(email="ops@example.com", password="NoDigitsHere!")
+65 |
+66 |     def test_no_special_char_rejected(self):
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ D102
+67 |         with pytest.raises(Exception):
+68 |             UserCreate(email="ops@example.com", password="NoSpecial1A")
+   |
+
+tests/unit/test_security.py:67:14: B017 Do not assert blind exception: `Exception`
+   |
+66 |     def test_no_special_char_rejected(self):
+67 |         with pytest.raises(Exception):
+   |              ^^^^^^^^^^^^^^^^^^^^^^^^ B017
+68 |             UserCreate(email="ops@example.com", password="NoSpecial1A")
+   |
+
+Found 57 errors.
+No fixes available (2 hidden fixes can be enabled with the `--unsafe-fixes` option).

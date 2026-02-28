@@ -28,7 +28,6 @@ def client():
 
 def test_full_auth_flow(client):
     """Run the complete auth lifecycle: register → login → create session → list sessions."""
-
     # ── Step 1: Register ────────────────────────────────────────────
     reg = client.post(
         "/api/v1/auth/register",
@@ -38,7 +37,6 @@ def test_full_auth_flow(client):
     data = reg.json()
     assert data["email"] == "flow@seshops.io"
     assert "token" in data
-    token = data["token"]["access_token"]
 
     # ── Step 2: Login ───────────────────────────────────────────────
     login = client.post(

@@ -42,6 +42,7 @@ class TriageGraph:
         llm: LLMServiceProtocol | None = None,
         rag: RAGServiceProtocol | None = None,
     ) -> None:
+        """Initialize the triage graph with required services."""
         self.llm_service = llm or llm_service
         self.rag_service = rag or default_rag_service
         self._graph: CompiledStateGraph | None = None
