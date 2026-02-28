@@ -1,0 +1,42 @@
+name: SeshOps CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.12", "3.13"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install uv
+        run: pip install uv
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Lint with ruff
+        run: uv run ruff check .
+
+      - name: Run tests with coverage
+        env:
+          APP_ENV: test
+          ENVIRONMENT: test
+          JWT_SECRET_KEY: ci-test-secret
+          OPENAI_API_KEY: sk-test
+        run: |
+          uv pip install pytest-cov
+          uv run pytest tests/ -v --tb=short --cov=app --cov-report=term-missing --cov-fail-under=70
