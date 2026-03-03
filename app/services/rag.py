@@ -22,7 +22,7 @@ class RAGService:
     """Embeds and retrieves IT operations runbooks for the SeshOps triage pipeline."""
 
     def __init__(self) -> None:
-        """Initialize the RAG service with OpenAI embeddings."""
+        """Initialise the RAG service and embedding model."""
         self.embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
         self._vector_store: Optional[VectorStore] = None
 

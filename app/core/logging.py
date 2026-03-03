@@ -32,19 +32,18 @@ _request_context: ContextVar[Dict[str, Any] | None] = ContextVar(
 
 def bind_context(**kwargs: Any) -> None:
     """Attach key-value pairs to the current request's logging context."""
-    current = get_context()
+    current = _request_context.get() or {}
     _request_context.set({**current, **kwargs})
 
 
 def clear_context() -> None:
     """Reset the logging context at the end of a request lifecycle."""
-    _request_context.set(None)
+    _request_context.set({})
 
 
 def get_context() -> Dict[str, Any]:
     """Return the current request-scoped logging context."""
-    ctx = _request_context.get()
-    return ctx if ctx is not None else {}
+    return _request_context.get() or {}
 
 
 def _inject_context(
@@ -78,12 +77,12 @@ class JsonlFileHandler(logging.Handler):
     """Writes structured JSON-line entries to daily rotating files."""
 
     def __init__(self, file_path: Path) -> None:
-        """Initialize the JSONL file handler with a target path."""
+        """Initialize the JSONL file handler."""
         super().__init__()
         self.file_path = file_path
 
     def emit(self, record: logging.LogRecord) -> None:
-        """Write the log record to the daily rotate file as a JSON line."""
+        """Emit a log record formatted as JSON lines."""
         try:
             entry = {
                 "timestamp": datetime.fromtimestamp(record.created).isoformat(),

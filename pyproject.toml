@@ -3,7 +3,7 @@ name = "seshops"
 version = "1.0.0"
 description = "SeshOps — IT Operations Copilot for deterministic incident triage"
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.13"
 dependencies = [
     "fastapi>=0.121.0",
     "langchain>=1.0.5",
@@ -72,5 +72,5 @@ convention = "google"
 
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["E402"]
-"tests/**/*.py" = ["D101", "D102", "D103", "D107"]
-"scripts/**/*.py" = ["D100", "D101", "D102", "D103"]
+"tests/**/*.py" = ["D", "B017", "F841"]
+"scripts/**/*.py" = ["D"]

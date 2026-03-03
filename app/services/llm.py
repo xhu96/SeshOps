@@ -145,7 +145,7 @@ class LLMService:
     CIRCUIT_OPEN_DURATION: float = 60.0  # seconds before auto-reset
 
     def __init__(self) -> None:
-        """Initialize the LLM service with circuit breaker and fallback state."""
+        """Initialize the LLM service and circuit breaker state."""
         self._llm: Optional[BaseChatModel] = None
         self._current_model_index: int = 0
         self._circuit_open: bool = False
